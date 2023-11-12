@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New</title>
+</head>
+<body>
+<!--/*@thymesVar id="user" type="web"*/-->
+<form th:method="post" th:action="@{new}" th:object="${user}">
+    <label for="name">Name</label>
+    <input name="name" type="text" id="name">
+    <br>
+    <label for="surname">Surname</label>
+    <input name="surname" type="text" id="surname">
+    <br>
+    <input type="submit" value="Add User">
+</form>
+</body>
+</html>
