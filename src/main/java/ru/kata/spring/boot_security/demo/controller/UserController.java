@@ -1,6 +1,8 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +25,7 @@ public class UserController {
     @GetMapping("/all")
     public String getUsers(Principal principal, Model model) {
         model.addAttribute("users", userService.getUsers());
-        model.addAttribute("principal", principal);
+//        model.addAttribute("principal", principal);
         return "all";
     }
 
@@ -69,6 +71,13 @@ public class UserController {
     @GetMapping("/welcome")
     public String welcome() {
         return "welcome";
+    }
+
+    @GetMapping("/userInfo")
+    public String userInfo(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("user",authentication.getPrincipal());
+        return "userInfo";
     }
 
 }

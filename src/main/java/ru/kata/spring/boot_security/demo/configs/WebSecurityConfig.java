@@ -1,57 +1,61 @@
 package ru.kata.spring.boot_security.demo.configs;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import ru.kata.spring.boot_security.demo.service.user.UserService;
 
-@Configuration
+
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    //    private final SuccessUserHandler successUserHandler;
-//    private UserService userService;
-//
+    private final UserService userService;
+
+
 //    @Autowired
-//    public void setUserService(UserService userService) {
-//        this.userService = userService;
+//    public WebSecurityConfig(AuthenticationProvider authenticationProvider) {
+//        this.authenticationProvider = authenticationProvider;
 //    }
-//
-//    @Autowired
-//    public WebSecurityConfig(SuccessUserHandler successUserHandler) {
-//        this.successUserHandler = successUserHandler;
-//    }
-    private final AuthenticationProvider authenticationProvider;
-
-    @Autowired
-    public WebSecurityConfig(AuthenticationProvider authenticationProvider) {
-        this.authenticationProvider = authenticationProvider;
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(authenticationProvider);
-    }
-
 
 //    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .exceptionHandling()
-//                .accessDeniedHandler(new CustomAccessDeniedHandler())
-//                .and()
-//                .authorizeRequests()
-//                .antMatchers("/welcome").permitAll()
-//                .antMatchers("/all").hasAnyRole("USER")
-//                .antMatchers("/**").hasAnyRole("ADMIN")
-//                .and()
-//                .formLogin().successHandler(successUserHandler)
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .permitAll();
+//    protected void configure(AuthenticationManagerBuilder auth) {
+//        auth.authenticationProvider(authProvider());
 //    }
+
+
+    @Bean
+    public DaoAuthenticationProvider authProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.formLogin()
+                .successHandler(new SuccessUserHandler())
+                .permitAll();
+
+        http.logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+
+        http.authorizeRequests()
+                .antMatchers("/login").anonymous()
+                .antMatchers("/logout").permitAll()
+                .antMatchers("/all").hasAnyRole("USER");
+    }
 
     //  аутентификация inMemory
 //    @Bean
@@ -67,10 +71,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //
 //        return new InMemoryUserDetailsManager(user);
 //    }
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
 //        return new BCryptPasswordEncoder();
-//    }
+    }
 //
 //    @Bean
 //    public DaoAuthenticationProvider authenticationProvider() {

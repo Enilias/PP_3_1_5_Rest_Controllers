@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>All Users</title>
@@ -11,12 +11,12 @@
     </style>
 </head>
 <body>
-<p> Welcome  <a th:text="${principal.getName()}"></a></p>
+<p> Welcome  <a sec:authentication="name"></a></p>
 <table border="1">
     <tr>
         <th>ID</th>
         <th>Name</th>
-        <th>Sur-Name</th>
+        <th>Surname</th>
         <th>Update</th>
         <th>Delete</th>
         <th>User-page</th>

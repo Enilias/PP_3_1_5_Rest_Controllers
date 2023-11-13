@@ -1,51 +1,62 @@
 package ru.kata.spring.boot_security.demo.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.dao.user.UserDao;
+import ru.kata.spring.boot_security.demo.dao.UserRepository;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
 public class UserServiceImpl implements UserService {
-    private final UserDao userDao;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao) {
-        this.userDao = userDao;
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<User> getUsers() {
-        return userDao.getUsers();
+        return userRepository.findAll();
     }
 
     @Override
     @Transactional
     public void save(User user) {
-        userDao.save(user);
+        userRepository.save(user);
     }
 
     @Override
     @Transactional
     public void delete(int id) {
-        userDao.delete(id);
+        userRepository.deleteById(id);
     }
 
     @Override
     @Transactional(readOnly = true)
     public User getUser(int id) {
-        return userDao.getUser(id);
+        return userRepository.getById(id);
     }
 
     @Override
     @Transactional
     public void update(int id, String name, String surname) {
-        userDao.update(id, name, surname);
+        User user = userRepository.getById(id);
+        user.setName(name);
+        user.setSurname(surname);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return userRepository.findByUsername(s)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
     }
 
 }

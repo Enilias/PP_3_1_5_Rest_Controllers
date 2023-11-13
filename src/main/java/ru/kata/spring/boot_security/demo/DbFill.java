@@ -1,32 +1,46 @@
 package ru.kata.spring.boot_security.demo;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.role.RoleService;
 import ru.kata.spring.boot_security.demo.service.user.UserService;
 
 import javax.annotation.PostConstruct;
+import java.util.*;
 
+@RequiredArgsConstructor
 @Component
 public class DbFill {
 
     private final UserService userService;
-
-    @Autowired
-    public DbFill(UserService userService) {
-        this.userService = userService;
-    }
+    private final RoleService roleService;
 
 
     @PostConstruct
     private void postConstruct() {
-        User admin = new User("A", "A");
-        User user = new User("B", "B");
-        admin.setPassword("111");
-        user.setPassword("222");
-        userService.save(admin);
-        userService.save(user);
-
+        Role userRole = new Role("ROLE_USER");
+        Role adminRole = new Role("ROLE_ADMIN");
+        roleService.save(userRole);
+        roleService.save(adminRole);
+        for (int i = 0; i < 3; i++) {
+            userService.save(new User(
+                    "John" + i,
+                    "Smith" + i,
+                    "username" + i,
+                    "password" + i,
+                    new HashSet<>(Collections.singleton(userRole)))
+            );
+        }
+        userService.save(new User("admin",
+                "admini4",
+                "admin",
+                "admin",
+                new HashSet<>(Arrays.asList(adminRole, userRole))
+        ));
 
     }
 }
