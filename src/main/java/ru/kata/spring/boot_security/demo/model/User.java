@@ -1,20 +1,18 @@
 package ru.kata.spring.boot_security.demo.model;
 
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import ru.kata.spring.boot_security.demo.security.Role;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
-import java.util.Set;
 
 @Entity
+@Data
 @Table
-public class User implements GrantedAuthority, UserDetails {
+public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column
     @NotEmpty(message = "Name should not be empty")
@@ -22,14 +20,18 @@ public class User implements GrantedAuthority, UserDetails {
     @Column
     @NotEmpty(message = "Sur-Name should not be empty")
     private String surname;
-    private String username;
+    @Column(name = "password")
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
-
+    @ManyToMany
+    private Collection<Role> roles;
 
     public User() {
 
+    }
+
+    public User(String name, String surname) {
+        this.name = name;
+        this.surname = surname;
     }
 
     public User(int id, String name, String surname) {
@@ -38,67 +40,4 @@ public class User implements GrantedAuthority, UserDetails {
         this.surname = surname;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    @Override
-    public String getAuthority() {
-        return null;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
 }

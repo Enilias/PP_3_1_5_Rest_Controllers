@@ -1,62 +1,24 @@
-package ru.kata.spring.boot_security.demo.security;
+package ru.kata.spring.boot_security.demo.model;
 
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.kata.spring.boot_security.demo.model.User;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Collection;
-import java.util.Set;
 
 @Entity
+@Data
 @Table
 public class Role implements GrantedAuthority, UserDetails {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
-    public Role() {
-    }
 
-    public Role(int id) {
-        this.id = id;
-    }
-
-    public Role(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
     @Override
     public String getAuthority() {
-        return getName();
+        return null;
     }
 
     @Override

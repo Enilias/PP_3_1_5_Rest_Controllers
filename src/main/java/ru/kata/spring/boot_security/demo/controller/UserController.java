@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.service.user.UserService;
+
+import java.security.Principal;
 
 
 @Controller
@@ -19,8 +21,9 @@ public class UserController {
 
 
     @GetMapping("/all")
-    public String getUsers(Model model) {
+    public String getUsers(Principal principal, Model model) {
         model.addAttribute("users", userService.getUsers());
+        model.addAttribute("principal", principal);
         return "all";
     }
 
@@ -61,6 +64,11 @@ public class UserController {
     public String user(@ModelAttribute User user) {
         userService.update(user.getId(), user.getName(), user.getSurname());
         return "redirect:user";
+    }
+
+    @GetMapping("/welcome")
+    public String welcome() {
+        return "welcome";
     }
 
 }

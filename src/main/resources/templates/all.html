@@ -11,6 +11,7 @@
     </style>
 </head>
 <body>
+<p> Welcome  <a th:text="${principal.getName()}"></a></p>
 <table border="1">
     <tr>
         <th>ID</th>
@@ -42,6 +43,10 @@
 <br>
 <form action="new" target="_blank">
     <button>Add User</button>
+</form>
+<br>
+<form action="logout" target="_blank" method="post">
+    <button>Log Out</button>
 </form>
 </body>
 </html>
