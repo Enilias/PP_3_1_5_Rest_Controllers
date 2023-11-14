@@ -27,7 +27,7 @@
             <td th:text="${user.getName()}"></td>
             <td th:text="${user.getSurname()}"></td>
             <td>
-                <button><a th:href="@{/admin/update?id={id}(id=${user.id})}" target="_blank" class="style">Update</a></button>
+                <button><a th:href="@{/admin/update?id={id}(id=${user.id})}" class="style">Update</a></button>
             </td>
             <td>
                 <form th:method="delete" th:action="@{/admin/delete?id={id}(id=${user.id})}">
@@ -46,7 +46,7 @@
     <button>Add User</button>
 </form>
 <br>
-<form action="http://localhost:8080/logout" target="_blank" method="get">
+<form action="http://localhost:8080/logout" method="get">
     <button>Log Out</button>
 </form>
 </body>
