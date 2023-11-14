@@ -11,7 +11,7 @@
     </style>
 </head>
 <body>
-<p> Welcome  <a sec:authentication="name"></a></p>
+<p> Welcome <a sec:authentication="name"></a></p>
 <table border="1">
     <tr>
         <th>ID</th>
@@ -35,7 +35,7 @@
                 </form>
             </td>
             <th>
-            <a th:href="@{/admin/userInfo?id={id}(id=${user.id})}" th:text="${user.getName()}"></a>
+                <a th:href="@{/admin/userInfo?id={id}(id=${user.id})}" th:text="${user.getName()}"></a>
             </th>
         </tr>
     </th:block>
