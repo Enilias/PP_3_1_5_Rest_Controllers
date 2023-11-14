@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User Info</title>
+    <title>UserInfo</title>
 </head>
 <body>
 <table border="1">
@@ -19,6 +19,9 @@
     <td th:text="${user.getSurname()}"></td>
     <td th:text="${user.getUsername()}"></td>
     <td th:text="${user.getPassword()}"></td>
+    <td>
+        <button><a th:href="@{/update?id={id}(id=${user.id})}" target="_blank" class="style">Update</a></button>
+    </td>
 </table>
 </body>
 </html>

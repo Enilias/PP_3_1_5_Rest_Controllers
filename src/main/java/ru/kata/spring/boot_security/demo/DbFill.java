@@ -1,8 +1,6 @@
 package ru.kata.spring.boot_security.demo;
 
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -10,7 +8,9 @@ import ru.kata.spring.boot_security.demo.service.role.RoleService;
 import ru.kata.spring.boot_security.demo.service.user.UserService;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 
 @RequiredArgsConstructor
 @Component

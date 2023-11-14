@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>User</title>
@@ -12,16 +12,15 @@
         <th>Surname</th>
         <th>Username</th>
         <th>Password</th>
-        <th>Update</th>
     </tr>
     <td th:text="${user.getId()}"></td>
     <td th:text="${user.getName()}"></td>
     <td th:text="${user.getSurname()}"></td>
     <td th:text="${user.getUsername()}"></td>
     <td th:text="${user.getPassword()}"></td>
-    <td>
-        <button><a th:href="@{/update?id={id}(id=${user.id})}" target="_blank" class="style">Update</a></button>
-    </td>
 </table>
+<form action="logout" target="_blank" method="get">
+    <button>Log Out</button>
+</form>
 </body>
 </html>

@@ -22,50 +22,50 @@ public class UserController {
     }
 
 
-    @GetMapping("/all")
+    @GetMapping("/admin/all")
     public String getUsers(Principal principal, Model model) {
         model.addAttribute("users", userService.getUsers());
 //        model.addAttribute("principal", principal);
         return "all";
     }
 
-    @GetMapping("/new")
+    @GetMapping("/admin/new")
     public void newUser(Model model) {
         model.addAttribute("user", new User());
     }
 
-    @PostMapping("/new")
+    @PostMapping("/admin/new")
     public String creat(@ModelAttribute("user") User user) {
         userService.save(user);
         return "redirect:all";
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/admin/delete")
     public String delete(@RequestParam("id") int id) {
         userService.delete(id);
         return "redirect:all";
     }
 
-    @GetMapping("/update")
+    @GetMapping("/admin/update")
     public void getUpdate(@RequestParam("id") int id, Model model) {
         model.addAttribute("user", userService.getUser(id));
     }
 
-    @PatchMapping("/update")
+    @PatchMapping("/admin/update")
     public String update(@ModelAttribute("user") User user) {
         userService.update(user.getId(), user.getName(), user.getSurname());
         return "redirect:all";
     }
 
-    @GetMapping("/user")
+    @GetMapping("/admin/userInfo")
     public void getUser(@RequestParam("id") int id, Model model) {
-        model.addAttribute("user", userService.getUser(id));
+        model.addAttribute("userInfo", userService.getUser(id));
     }
 
-    @PostMapping("/user")
+    @PostMapping("/admin/userInfo")
     public String user(@ModelAttribute User user) {
         userService.update(user.getId(), user.getName(), user.getSurname());
-        return "redirect:user";
+        return "redirect:userInfo";
     }
 
     @GetMapping("/welcome")
@@ -73,11 +73,11 @@ public class UserController {
         return "welcome";
     }
 
-    @GetMapping("/userInfo")
+    @GetMapping("/user")
     public String userInfo(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("user",authentication.getPrincipal());
-        return "userInfo";
+        return "user";
     }
 
 }

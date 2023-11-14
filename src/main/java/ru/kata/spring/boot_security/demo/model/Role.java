@@ -3,10 +3,8 @@ package ru.kata.spring.boot_security.demo.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
 @Data
