@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UserInfo</title>
+</head>
+<body>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Username</th>
+        <th>Password</th>
+    </tr>
+        <tr>
+            <td th:text="${userInfo.getId()}"></td>
+            <td th:text="${userInfo.getName()}"></td>
+            <td th:text="${userInfo.getSurname()}"></td>
+            <td th:text="${userInfo.getUsername()}"></td>
+            <td th:text="${userInfo.getPassword()}"></td>
+
+        </tr>
+</table>
+</body>
+</html>

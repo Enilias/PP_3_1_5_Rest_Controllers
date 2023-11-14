@@ -15,19 +15,8 @@ import ru.kata.spring.boot_security.demo.service.user.UserService;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
     private final UserService userService;
-
-
-//    @Autowired
-//    public WebSecurityConfig(AuthenticationProvider authenticationProvider) {
-//        this.authenticationProvider = authenticationProvider;
-//    }
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) {
-//        auth.authenticationProvider(authProvider());
-//    }
-
 
     @Bean
     public DaoAuthenticationProvider authProvider() {
@@ -36,7 +25,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -51,34 +39,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").anonymous()
                 .antMatchers("/logout").permitAll()
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
-                .antMatchers("/user").hasAnyRole("ADMIN","USER");
+                .antMatchers("/user").hasAnyRole("ADMIN", "USER");
     }
 
-    //  аутентификация inMemory
-//    @Bean
-//    @Override
-//    @SuppressWarnings("deprecation")
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("user")
-//                        .roles("USER")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user);
-//    }
     @Bean
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
-//        return new BCryptPasswordEncoder();
     }
-//
-//    @Bean
-//    public DaoAuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-//        authenticationProvider.setPasswordEncoder(passwordEncoder());
-//        authenticationProvider.setUserDetailsService(userService);
-//        return authenticationProvider;
-//    }
+
 }

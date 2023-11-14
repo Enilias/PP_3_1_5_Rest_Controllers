@@ -46,10 +46,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void update(int id, String name, String surname) {
+    public void update(int id, String name, String surname, String username, String password) {
         User user = userRepository.getById(id);
         user.setName(name);
         user.setSurname(surname);
+        user.setUsername(username);
+        user.setPassword(password);
     }
 
     @Override

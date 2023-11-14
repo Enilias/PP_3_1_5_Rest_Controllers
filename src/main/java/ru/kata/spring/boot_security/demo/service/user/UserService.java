@@ -15,5 +15,5 @@ public interface UserService extends UserDetailsService {
 
     User getUser(int id);
 
-    void update(int id, String name, String surname);
+    void update(int id, String name, String surname, String username, String password);
 }

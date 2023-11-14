@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.user.UserService;
 
-import java.security.Principal;
-
 
 @Controller
 public class UserController {
@@ -23,10 +21,9 @@ public class UserController {
 
 
     @GetMapping("/admin/all")
-    public String getUsers(Principal principal, Model model) {
+    public String getUsers(Model model) {
         model.addAttribute("users", userService.getUsers());
-//        model.addAttribute("principal", principal);
-        return "all";
+        return "admin/all";
     }
 
     @GetMapping("/admin/new")
@@ -53,19 +50,17 @@ public class UserController {
 
     @PatchMapping("/admin/update")
     public String update(@ModelAttribute("user") User user) {
-        userService.update(user.getId(), user.getName(), user.getSurname());
+        userService.update(user.getId(),
+                user.getName(),
+                user.getSurname(),
+                user.getUsername(),
+                user.getPassword());
         return "redirect:all";
     }
 
     @GetMapping("/admin/userInfo")
     public void getUser(@RequestParam("id") int id, Model model) {
         model.addAttribute("userInfo", userService.getUser(id));
-    }
-
-    @PostMapping("/admin/userInfo")
-    public String user(@ModelAttribute User user) {
-        userService.update(user.getId(), user.getName(), user.getSurname());
-        return "redirect:userInfo";
     }
 
     @GetMapping("/welcome")
@@ -76,8 +71,8 @@ public class UserController {
     @GetMapping("/user")
     public String userInfo(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("user",authentication.getPrincipal());
-        return "user";
+        model.addAttribute("user", authentication.getPrincipal());
+        return "user/user";
     }
 
 }
