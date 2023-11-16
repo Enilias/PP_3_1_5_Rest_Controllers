@@ -6,7 +6,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import ru.kata.spring.boot_security.demo.service.user.UserService;
@@ -38,13 +38,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/login").anonymous()
                 .antMatchers("/logout").permitAll()
-                .antMatchers("/admin/**").permitAll()//.hasAnyRole("ADMIN")
-                .antMatchers("/user").permitAll();//.hasAnyRole("ADMIN", "USER");
+                .antMatchers("/admin/**").hasAnyRole("ADMIN")
+                .antMatchers("/user").hasAnyRole("ADMIN", "USER");
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
 }
