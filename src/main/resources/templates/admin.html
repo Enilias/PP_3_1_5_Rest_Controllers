@@ -25,13 +25,13 @@
     <span class="navbar-brand mb-0 h1">
         <strong><!--/*@thymesVar id="getUsername" type="ru.kata.spring.boot_security.demo"*/-->
         <a th:text="${user.getUsername()}"></a></strong>
-        <span class="text-start">с ролью:
-            <a th:each="role : ${user.getRoles()}" th:text="${role} + ' '"></a>
+        <span class="text-start">
+
         </span>
     </span>
     <ul class="navbar-nav px-4">
         <li class="nav-item text-nowrap">
-            <a class="nav-link" href="/logout">Выйти</a>
+            <a class="nav-link" href="http://localhost:8080/logout">Logout</a>
         </li>
     </ul>
 </nav>
