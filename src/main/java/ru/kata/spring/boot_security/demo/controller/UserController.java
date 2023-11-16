@@ -19,6 +19,13 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/admin")
+    public String adminPanel(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("user", authentication.getPrincipal());
+        return "admin";
+    }
+
 
     @GetMapping("/admin/all")
     public String getUsers(Model model) {
@@ -51,22 +58,19 @@ public class UserController {
     @PatchMapping("/admin/update")
     public String update(@ModelAttribute("user") User user) {
         userService.update(user.getId(),
-                user.getName(),
-                user.getSurname(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getAge(),
                 user.getUsername(),
-                user.getPassword());
+                user.getPassword(),
+                user.getRoles());
         return "redirect:all";
     }
 
-    @GetMapping("/admin/userInfo")
-    public void getUser(@RequestParam("id") int id, Model model) {
-        model.addAttribute("userInfo", userService.getUser(id));
-    }
-
-    @GetMapping("/welcome")
-    public String welcome() {
-        return "welcome";
-    }
+//    @GetMapping("/admin/userInfo")
+//    public void getUser(@RequestParam("id") int id, Model model) {
+//        model.addAttribute("userInfo", userService.getUser(id));
+//    }
 
     @GetMapping("/user")
     public String userInfo(Model model) {

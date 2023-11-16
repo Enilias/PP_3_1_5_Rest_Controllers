@@ -30,13 +30,15 @@ public class DbFill {
             userService.save(new User(
                     "John" + i,
                     "Smith" + i,
-                    "username" + i,
+                    (byte) (1 + i),
+                    "@mail" + i,
                     "password" + i,
                     new HashSet<>(Collections.singleton(userRole)))
             );
         }
         userService.save(new User("admin",
                 "admini4",
+                (byte) 1,
                 "admin",
                 "admin",
                 new HashSet<>(Arrays.asList(adminRole, userRole))

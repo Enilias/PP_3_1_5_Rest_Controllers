@@ -6,7 +6,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Entity
@@ -18,13 +21,20 @@ public class User implements UserDetails {
     private int id;
     @Column
     @NotEmpty(message = "Name should not be empty")
-    private String name;
+    private String firstName;
     @Column
     @NotEmpty(message = "Surname should not be empty")
-    private String surname;
+    private String lastName;
     @Column
+    @NotNull
+    @Max(127)
+    @Min(0)
+    private byte age;
+    @Column
+    @NotEmpty
     private String username;
     @Column
+    @NotEmpty
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles;
@@ -33,9 +43,10 @@ public class User implements UserDetails {
 
     }
 
-    public User(String name, String surname, String username, String password, Collection<Role> roles) {
-        this.name = name;
-        this.surname = surname;
+    public User(String firstName, String lastName, byte age, String username, String password, Collection<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
         this.username = username;
         this.password = password;
         this.roles = roles;

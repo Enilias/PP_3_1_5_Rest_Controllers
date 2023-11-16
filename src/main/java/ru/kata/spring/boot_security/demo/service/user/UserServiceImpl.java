@@ -6,8 +6,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.UserRepository;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -46,12 +48,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void update(int id, String name, String surname, String username, String password) {
+    public void update(int id, String firstName, String lastName, byte age, String userName, String password, Collection<Role> roles) {
         User user = userRepository.getById(id);
-        user.setName(name);
-        user.setSurname(surname);
-        user.setUsername(username);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setAge(age);
+        user.setUsername(userName);
         user.setPassword(password);
+        user.setRoles(roles);
     }
 
     @Override

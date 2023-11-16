@@ -8,7 +8,6 @@
           rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
           crossorigin="anonymous">
-
     <style>
         .style {
             text-decoration: none;
@@ -30,8 +29,8 @@
     <th:block th:each="user : ${users}">
         <tr>
             <td th:text="${user.getId()}"></td>
-            <td th:text="${user.getName()}"></td>
-            <td th:text="${user.getSurname()}"></td>
+            <td th:text="${user.getFirstName()}"></td>
+            <td th:text="${user.getLastName()}"></td>
             <td>
                 <button class="btn btn-primary" style="color: white;"><a
                         th:href="@{/admin/update?id={id}(id=${user.id})}" class="style" style="color:white">Update</a>
@@ -43,7 +42,7 @@
                 </form>
             </td>
             <th>
-                <a th:href="@{/admin/userInfo?id={id}(id=${user.id})}" th:text="${user.getName()}"></a>
+                <a th:href="@{/admin/userInfo?id={id}(id=${user.id})}" th:text="${user.getFirstName()}"></a>
             </th>
         </tr>
     </th:block>
