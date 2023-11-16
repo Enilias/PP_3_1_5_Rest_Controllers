@@ -19,13 +19,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/admin")
-    public String adminPanel(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("user", authentication.getPrincipal());
-        return "admin";
-    }
-
 
     @GetMapping("/admin/all")
     public String getUsers(Model model) {
