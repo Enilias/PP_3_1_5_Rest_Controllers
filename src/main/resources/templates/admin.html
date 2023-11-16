@@ -12,24 +12,35 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"></script>
-
-    <style>
-        body {
-            padding: 30px;
-        }
-    </style>
 </head>
 <body>
-
-<nav class="navbar navbar-dark bg-dark">
+<!--navbar-dark: Этот класс определяет цвет текста внутри навигационной панели. -->
+<!--В сочетании с bg-dark он устанавливает светлый цвет текста,-->
+<!--чтобы обеспечить контраст с темным фоном.-->
+<!--bg-dark: Этот класс устанавливает темный цвет фона для навигационной панели.-->
+<nav class="navbar navbar-dark bg-dark px-4">
     <span class="navbar-brand mb-0 h1">
-        <strong><!--/*@thymesVar id="getUsername" type="ru.kata.spring.boot_security.demo"*/-->
-        <a th:text="${user.getUsername()}"></a></strong>
-        <span class="text-start">
+<!--        navbar-brand: Это класс Bootstrap,-->
+        <!--        который обычно используется для логотипа или названия бренда-->
+        <!--        в навигационной панели. Он устанавливает некоторые стили,-->
+        <!--        такие, как отступы и размер шрифта, чтобы выделить этот элемент-->
+        <!--        на фоне других элементов навигационной панели.-->
+        <!--mb-0: Это класс Bootstrap для управления отступами.-->
+        <!--        mb-0 устанавливает нижний отступ (margin-bottom) элемента равным 0.-->
+        <!--        Это может быть полезно, если вы не хотите,-->
+        <!--        чтобы под элементом было дополнительное пространство.-->
+        <!--h1: Это класс Bootstrap, который делает текст внутри элемента похожим на заголовок-->
+        <!--        первого уровня (<h1>). Он устанавливает размер шрифта и вес шрифта,-->
+        <!--        чтобы сделать текст более заметным.-->
+        <strong>
+            <a sec:authentication="name"></a>
+            <span th:each="role : ${#authentication.principal.authorities}"
+                  th:text="${role.authority.replace('ROLE_', ' ')}"
+            ></span>
 
-        </span>
+        </strong>
     </span>
-    <ul class="navbar-nav px-4">
+    <ul class="navbar-nav">
         <li class="nav-item text-nowrap">
             <a class="nav-link" href="http://localhost:8080/logout">Logout</a>
         </li>
