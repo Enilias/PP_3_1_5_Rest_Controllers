@@ -22,7 +22,7 @@ public class UserController {
     public String adminPanel(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("userinfo", authentication.getPrincipal());
-        model.addAttribute("userAll",userService.getUsers());
+        model.addAttribute("users",userService.getUsers());
         return "admin/admin";
     }
 
