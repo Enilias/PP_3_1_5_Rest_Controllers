@@ -18,7 +18,13 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
+    @GetMapping("/admin")
+    public String adminPanel(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("userinfo", authentication.getPrincipal());
+        model.addAttribute("userAll",userService.getUsers());
+        return "admin/admin";
+    }
 
     @GetMapping("/admin/all")
     public String getUsers(Model model) {

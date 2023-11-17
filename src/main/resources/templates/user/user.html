@@ -14,8 +14,9 @@
         <th>Password</th>
     </tr>
     <td th:text="${user.getId()}"></td>
-    <td th:text="${user.getName()}"></td>
-    <td th:text="${user.getSurname()}"></td>
+    <td th:text="${user.getFirstName()}"></td>
+    <td th:text="${user.getLastName()}"></td>
+    <td th:text="${user.getAge()}"></td>
     <td th:text="${user.getUsername()}"></td>
     <td th:text="${user.getPassword()}"></td>
 </table>
