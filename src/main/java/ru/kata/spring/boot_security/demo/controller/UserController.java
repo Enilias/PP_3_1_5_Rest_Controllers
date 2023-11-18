@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -7,22 +8,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.service.role.RoleService;
 import ru.kata.spring.boot_security.demo.service.user.UserService;
+
+import javax.management.ConstructorParameters;
 
 
 @Controller
+@RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final RoleService roleService;
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
     @GetMapping("/admin")
     public String adminPanel(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("userinfo", authentication.getPrincipal());
         model.addAttribute("users",userService.getUsers());
+        model.addAttribute("roles",roleService.getRoles());
         return "admin/admin";
     }
 
