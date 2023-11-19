@@ -35,15 +35,15 @@ public class UserController {
 //        return "admin/all";
 //    }
 
-    @GetMapping("/admin/new")
-    public void newUser(Model model) {
-        model.addAttribute("user", new User());
-    }
+//    @GetMapping("/admin")
+//    public void newUser(Model model) {
+//        model.addAttribute("user", new User());
+//    }
 
-    @PostMapping("/admin/new")
+    @PostMapping("/admin")
     public String creat(@ModelAttribute("user") User user) {
         userService.save(user);
-        return "redirect:all";
+        return "redirect:admin";
     }
 
     @DeleteMapping("/admin/delete")

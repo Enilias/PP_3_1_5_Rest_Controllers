@@ -123,52 +123,60 @@
                 </table>
 
             </div>
+            </style>
+
             <div class="tab-pane fade" id="NewUser" role="tabpanel" aria-labelledby="nav-profile-tab">
                 <!-- New user -->
                 <!--/*@thymesVar id="user" type="ru.kata.spring.boot_security.demo.controller"*/-->
-                <form class="col" th:action="@{admin/new}" th:method="post" th:object="${user}" style="width: 100%">
+                <form class="col" th:action="@{admin}" th:method="post" th:object="${user}" style="width: 100%">
                     <div class="container-fluid text-center col-3">
-                        <p><strong>Add new user</strong></p>
-                        <div class="input-group">
-                            <label>First Name
-                                <input type="text" name="firstName" id="firstName" class="form-control" placeholder="First name">
-                            </label>
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <label>Last Name
-                                <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Last name">
-                            </label>
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <label>Age
-                                <input type="number" name="age" id="age" class="form-control" placeholder="Age">
-                            </label>
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <label>Email
-                                <input type="text" name="username" id="username" class="form-control" placeholder="User name">
-                            </label>
-                        </div>
-                        <div class="input-group input-group-sm mb-3">
-                            <label>Password
-                                <input type="password" name="password" id="password" class="form-control" placeholder="Password">
-                            </label>
-                        </div>
-                        <div class="form-group">
-                            <label for="newRole">Roles</label>
-                            <select id="newRole" class="custom-select bd-primary" size="2" name="nameRoles" multiple="multiple">
-                                <option th:each="role : ${roles}"
-                                        th:value="${role.getName()}"
-                                        th:text="${role.getName().replace('ROLE_', ' ')} + ' '"
-                                        th:selected="${role.getName()} == ROLES"></option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-success">Add</button>
+                        <p><h5>Add new user</h5></p>
+                        <div class="form-control">
+                            <div class="mb-3">
+                                <label>First Name
+                                    <input type="text" name="firstName" id="firstName" class="form-control"
+                                           placeholder="First name">
+                                </label>
+                            </div>
+                            <div class="mb-3">
+                                <label>Last Name
+                                    <input type="text" name="lastName" id="lastName" class="form-control"
+                                           placeholder="Last name">
+                                </label>
+                            </div>
+                            <div class="mb-3">
+                                <label>Age
+                                    <input type="number" name="age" id="age" class="form-control" placeholder="Age">
+                                </label>
+                            </div>
+                            <div class="mb-3">
+                                <label>Email
+                                    <input type="text" name="username" id="username" class="form-control"
+                                           placeholder="User name">
+                                </label>
+                            </div>
+                            <div class="mb-3">
+                                <label>Password
+                                    <input type="password" name="password" id="password" class="form-control"
+                                           placeholder="Password">
+                                </label>
+                            </div>
+                            <div class="mb-3">
+                                <label for="newRole">Roles</label>
+                                <select id="newRole" class="custom-select bd-primary" size="2" name="nameRoles"
+                                        multiple="multiple">
+                                    <option th:each="role : ${roles}"
+                                            th:value="${role.getName()}"
+                                            th:text="${role.getName().replace('ROLE_', ' ')} + ' '"
+                                            th:selected="${role.getName()} == ROLES"></option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-success">Add</button>
+                            </div>
                         </div>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
