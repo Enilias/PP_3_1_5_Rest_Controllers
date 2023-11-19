@@ -29,11 +29,11 @@ public class UserController {
         return "admin/admin";
     }
 
-    @GetMapping("/admin/all")
-    public String getUsers(Model model) {
-        model.addAttribute("users", userService.getUsers());
-        return "admin/all";
-    }
+//    @GetMapping("/admin/all")
+//    public String getUsers(Model model) {
+//        model.addAttribute("users", userService.getUsers());
+//        return "admin/all";
+//    }
 
     @GetMapping("/admin/new")
     public void newUser(Model model) {

@@ -31,10 +31,8 @@ public class User implements UserDetails {
     @Min(0)
     private byte age;
     @Column
-    @NotEmpty
     private String username;
     @Column
-    @NotEmpty
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Role> roles;
