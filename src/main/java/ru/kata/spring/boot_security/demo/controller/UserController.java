@@ -40,7 +40,7 @@ public class UserController {
 //        return "admin/all";
 //    }
 
-//    @GetMapping("/admin")
+//    @GetMapping("/admin")чисто
 //    public void newUser(Model model) {
 //        model.addAttribute("user", new User());
 //    }
@@ -53,27 +53,27 @@ public class UserController {
         return "redirect:admin";
     }
 
-    @DeleteMapping("/admin/delete")
-    public String delete(@RequestParam("id") int id) {
-        userService.delete(id);
-        return "redirect:all";
-    }
-
 //    @GetMapping("/admin")
 //    public void getUpdate(@RequestParam("id") int id, Model model) {
 //        model.addAttribute("user", userService.getUser(id));
 //    }
 
     @PatchMapping("/admin")
-    public String update(@ModelAttribute("user") User user) {
+    public String update(@ModelAttribute("user") User user,@RequestParam("rolesName") String[] rolesName) {
         userService.update(user.getId(),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getAge(),
                 user.getUsername(),
                 user.getPassword(),
-                user.getRoles());
+                roleService.getCollectionsRoles(rolesName));
         return "redirect:admin";
+    }
+
+    @DeleteMapping("/admin")
+    public String delete(@RequestParam("id") int id) {
+        userService.delete(id);
+        return "redirect:all";
     }
 
 //    @GetMapping("/admin/userInfo")
