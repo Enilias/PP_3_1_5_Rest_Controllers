@@ -59,7 +59,7 @@ public class UserController {
 //    }
 
     @PatchMapping("/admin")
-    public String update(@ModelAttribute("user") User user,@RequestParam("rolesName") String[] rolesName) {
+    public String update(@ModelAttribute("user") User user, @RequestParam("rolesName") String[] rolesName) {
         userService.update(user.getId(),
                 user.getFirstName(),
                 user.getLastName(),
@@ -72,8 +72,9 @@ public class UserController {
 
     @DeleteMapping("/admin")
     public String delete(@RequestParam("id") int id) {
+        System.out.println(id);
         userService.delete(id);
-        return "redirect:all";
+        return "redirect:admin";
     }
 
 //    @GetMapping("/admin/userInfo")
