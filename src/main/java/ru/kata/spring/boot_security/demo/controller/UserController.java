@@ -59,12 +59,12 @@ public class UserController {
         return "redirect:all";
     }
 
-    @GetMapping("/admin/update")
-    public void getUpdate(@RequestParam("id") int id, Model model) {
-        model.addAttribute("user", userService.getUser(id));
-    }
+//    @GetMapping("/admin")
+//    public void getUpdate(@RequestParam("id") int id, Model model) {
+//        model.addAttribute("user", userService.getUser(id));
+//    }
 
-    @PatchMapping("/admin/update")
+    @PatchMapping("/admin")
     public String update(@ModelAttribute("user") User user) {
         userService.update(user.getId(),
                 user.getFirstName(),
@@ -73,7 +73,7 @@ public class UserController {
                 user.getUsername(),
                 user.getPassword(),
                 user.getRoles());
-        return "redirect:all";
+        return "redirect:admin";
     }
 
 //    @GetMapping("/admin/userInfo")
