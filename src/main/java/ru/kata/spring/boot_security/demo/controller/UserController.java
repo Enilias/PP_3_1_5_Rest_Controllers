@@ -7,11 +7,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.role.RoleService;
 import ru.kata.spring.boot_security.demo.service.user.UserService;
 
 import javax.management.ConstructorParameters;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 
 @Controller
@@ -24,8 +29,8 @@ public class UserController {
     public String adminPanel(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("userinfo", authentication.getPrincipal());
-        model.addAttribute("users",userService.getUsers());
-        model.addAttribute("roles",roleService.getRoles());
+        model.addAttribute("users", userService.getUsers());
+        model.addAttribute("roles", roleService.getRoles());
         return "admin/admin";
     }
 
@@ -41,7 +46,9 @@ public class UserController {
 //    }
 
     @PostMapping("/admin")
-    public String creat(@ModelAttribute("user") User user) {
+    public String creat(@ModelAttribute("user") User user, @RequestParam("rolesName") String[] rolesName) {
+        System.out.println(Arrays.toString(rolesName));
+        user.setRoles(roleService.getCollectionsRoles(rolesName));
         userService.save(user);
         return "redirect:admin";
     }
