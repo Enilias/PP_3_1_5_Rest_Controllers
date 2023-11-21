@@ -10,6 +10,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.role.RoleService;
 import ru.kata.spring.boot_security.demo.service.user.UserService;
 
+import java.util.Arrays;
 
 
 @Controller
@@ -37,14 +38,10 @@ public class UserController {
 
 
     @PatchMapping("/admin")
-    public String update(@ModelAttribute("user") User user, @RequestParam(value = "rolesName",required = false) String[] rolesName) {
-        userService.update(user.getId(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getAge(),
-                user.getUsername(),
-                user.getPassword(),
-                roleService.getCollectionsRoles(rolesName));
+    public String update(@ModelAttribute("user") User user, @RequestParam(value = "rolesName", required = false) String[] rolesName) {
+        System.out.println(user);
+        System.out.println(Arrays.toString(rolesName));
+        userService.update(user, roleService.getCollectionsRoles(rolesName));
         return "redirect:admin";
     }
 

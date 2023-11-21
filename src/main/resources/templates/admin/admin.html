@@ -84,7 +84,7 @@
                                       th:text="${roles.authority.replace('ROLE_', ' ')} + ' '"></span></td>
                             <!--                                         Update-->
                             <td>
-                                <button th:href="${'#Edit' + user.id}"
+                                <button th:href="${'#Edit' + user.getId()}"
                                         class="btn btn-info"
                                         style="color: white; background: #16A3B8"
                                         type="button"
@@ -94,7 +94,7 @@
                             </td>
                             <!--                                                 Delete-->
                             <td>
-                                <button th:href="${'#Delay' + user.id}"
+                                <button th:href="${'#Delay' + user.getId()}"
                                         class="btn btn-danger"
                                         type="button"
                                         data-bs-toggle="modal">
@@ -152,7 +152,7 @@
     </main>
 </div>
 <!--Update-->
-<div class="modal fade" th:each="user : ${users}" th:id="${'Edit' + user.id}">
+<div class="modal fade" th:each="user : ${users}" th:id="${'Edit' + user.getId()}">
     <div class="modal-dialog">
         <div class="modal-content">
             <form th:action="@{admin}" th:method="patch" th:object="${user}">
@@ -163,10 +163,11 @@
                     </div>
                     <!--/*@thymesVar id="user" type="ru"*/-->
                     <div class="d-flex modal-body flex-column align-items-center">
+                        <input type="hidden" name="id" th:id="id" readonly class="form-control w-50 mb-3"
+                               th:value="${user.getId()}">
 
                         <label class="form-label"><b>ID</b></label>
                         <input type="text" name="id" th:id="id" readonly disabled class="form-control w-50 mb-3"
-                               placeholder="id"
                                th:value="${user.getId()}">
 
                         <label class="form-label"><b>First Name</b></label>
