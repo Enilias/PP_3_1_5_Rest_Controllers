@@ -76,4 +76,10 @@ public class User implements UserDetails {
         return true;
     }
 
+    public boolean hasRole(String role) {
+        return roles.stream()
+                .map(Role::getName)
+                .anyMatch(name -> name.equalsIgnoreCase(role));
+    }
+
 }

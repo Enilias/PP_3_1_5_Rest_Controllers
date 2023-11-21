@@ -5,10 +5,8 @@ import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.dao.RoleRepository;
 import ru.kata.spring.boot_security.demo.model.Role;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -40,7 +38,8 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.getById(id);
     }
 
+    @Override
     public Collection<Role> getCollectionsRoles(String[] rolesName) {
-       return roleRepository.findAllByNameIn(List.of(rolesName));
+        return roleRepository.findAllByNameIn(List.of(rolesName));
     }
 }
