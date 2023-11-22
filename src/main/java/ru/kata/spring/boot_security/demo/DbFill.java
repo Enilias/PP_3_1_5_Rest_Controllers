@@ -31,7 +31,7 @@ public class DbFill {
                     "John" + i,
                     "Smith" + i,
                     (byte) (1 + i),
-                    "@mail" + i,
+                    "user" + i+"@gmail.com",
                     "password" + i,
                     new HashSet<>(Collections.singleton(userRole)))
             );
@@ -39,7 +39,7 @@ public class DbFill {
         userService.save(new User("admin",
                 "admini4",
                 (byte) 1,
-                "admin",
+                "admin@gmail.com",
                 "admin",
                 new HashSet<>(Arrays.asList(adminRole, userRole))
         ));
