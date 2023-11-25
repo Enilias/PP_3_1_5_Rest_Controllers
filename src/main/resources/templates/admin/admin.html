@@ -12,6 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"></script>
+    <script defer src="admin.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark px-4">
@@ -28,7 +29,6 @@
         </li>
     </ul>
 </nav>
-
 <div class="d-flex flex-fill">
     <div class="d-flex flex-column pt-3" style="width: 250px">
         <ul class="nav nav-pills flex-column mb-auto">
@@ -60,8 +60,7 @@
                 <h5 class="ms-3 mt-2">All users</h5>
 
                 <div style="background: white;border-top: 1px solid #DCDFE3" class="p-3">
-                    <table class="table table-striped table-hover" style="border-top: 1px solid #DCDFE3">
-                        <thead>
+                    <table class="table table-striped table-hover" style="border-top: 1px solid #DCDFE3" id="userTable">
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">First Name</th>
@@ -72,37 +71,6 @@
                             <th scope="col">Edit</th>
                             <th scope="col">Delete</th>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="user : ${users}">
-                            <td th:text="${user.getId()}">ID</td>
-                            <td th:text="${user.getFirstName()}">Name</td>
-                            <td th:text="${user.getLastName()}">LastName</td>
-                            <td th:text="${user.getAge()}">Age</td>
-                            <td th:text="${user.getUsername()}">Email</td>
-                            <td><span th:each="roles : ${user.getRoles()}"
-                                      th:text="${roles.authority.replace('ROLE_', ' ')} + ' '"></span></td>
-                            <!--                                         Update-->
-                            <td>
-                                <button th:href="${'#Edit' + user.getId()}"
-                                        class="btn btn-info"
-                                        style="color: white; background: #16A3B8"
-                                        type="button"
-                                        data-bs-toggle="modal">
-                                    Edit
-                                </button>
-                            </td>
-                            <!--                                                 Delete-->
-                            <td>
-                                <button th:href="${'#Delay' + user.getId()}"
-                                        class="btn btn-danger"
-                                        type="button"
-                                        data-bs-toggle="modal">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-                        </tbody>
                     </table>
                 </div>
 
@@ -152,10 +120,10 @@
     </main>
 </div>
 <!--Update-->
-<div class="modal fade" th:each="user : ${users}" th:id="${'Edit' + user.getId()}">
+<div class="modal fade" id="modalEdit">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form th:action="@{admin}" th:method="patch" th:object="${user}">
+            <form th:action="@{admin}" th:method="patch">
                 <div class="p-1" style="border-top: 1px solid #DCDFE3; background: white; max-height: 75vh">
                     <div class="modal-header">
                         <h4 class="modal-title">Edit user</h4>
@@ -163,45 +131,34 @@
                     </div>
                     <!--/*@thymesVar id="user" type="ru"*/-->
                     <div class="d-flex modal-body flex-column align-items-center">
-                        <input type="hidden" name="id" th:id="id" readonly class="form-control w-50 mb-3"
-                               th:value="${user.getId()}">
 
                         <label class="form-label"><b>ID</b></label>
-                        <input type="text" name="id" th:id="id" readonly disabled class="form-control w-50 mb-3"
-                               th:value="${user.getId()}">
+                        <input type="text" name="id" id="editId" readonly disabled class="form-control w-50 mb-3">
 
                         <label class="form-label"><b>First Name</b></label>
-                        <input type="text" name="firstName" th:id="firstName" class="form-control w-50 mb-3"
-                               placeholder="First name"
-                               th:value="${user.getFirstName()}">
+                        <input type="text" name="firstName" id="editFirstName" class="form-control w-50 mb-3"
+                               placeholder="First name">
 
                         <label class="form-label"><b>Last Name</b></label>
-                        <input type="text" name="lastName" th:id="lastName" class="form-control w-50 mb-3"
-                               placeholder="Last name"
-                               th:value="${user.getLastName()}">
+                        <input type="text" name="lastName" id="editLastName" class="form-control w-50 mb-3"
+                               placeholder="Last name">
 
                         <label class="form-label"><b>Age</b></label>
-                        <input type="number" name="age" th:id="age" class="form-control w-50 mb-3" placeholder="Age"
-                               th:value="${user.getAge()}">
+                        <input type="number" name="age" id="editAge" class="form-control w-50 mb-3" placeholder="Age">
 
                         <label class="form-label"><b>Email</b></label>
-                        <input type="text" name="username" th:id="username" class="form-control w-50 mb-3"
-                               placeholder="Email"
-                               th:value="${user.getUsername()}">
+                        <input type="text" name="username" id="editUsername" class="form-control w-50 mb-3"
+                               placeholder="Email">
 
                         <label class="form-label"><b>Password</b></label>
-                        <input type="password" name="password" th:id="password" class="form-control w-50 mb-3"
+                        <input type="password" name="password" id="editPassword" class="form-control w-50 mb-3"
                                placeholder="Password">
-<!--                               th:value="${user.getPassword()}">-->
+
 
                         <label class="flex-fill"><b>Role</b></label>
-                        <select th:id="roles" class="custom-select bd-primary w-50 mb-3" size="2" name="rolesName"
+                        <select id="editRoles" class="custom-select bd-primary w-50 mb-3" size="2" name="rolesName"
                                 multiple="multiple">
-                            <option th:each="role : ${roles}"
-                                    th:value="${role.getName()}"
-                                    th:selected="${user.hasRole(role.name)}"
-                                    th:text="${role.getName().replace('ROLE_', ' ')} + ' '">
-                            </option>
+
                         </select>
                     </div>
                     <div class="modal-footer w-100">
@@ -215,10 +172,10 @@
 </div>
 </div>
 <!--delete-->
-<div class="modal fade" th:each="user : ${users}" th:id="${'Delay' + user.id}">
+<div class="modal fade" id="modalDelete">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form th:action="@{/admin?id={id}(id=${user.id})}" th:method="delete">
+            <form th:action="@{admin/delete}" th:method="delete">
                 <div class="p-1" style="border-top: 1px solid #DCDFE3; background: white; max-height: 75vh">
                     <div class="modal-header">
                         <h4 class="modal-title">Delete user</h4>
@@ -228,44 +185,38 @@
                     <div class="d-flex modal-body flex-column align-items-center">
 
                         <label class="form-label"><b>ID</b></label>
-                        <input type="text" name="id" th:id="id" readonly disabled class="form-control w-50 mb-3"
-                               placeholder="id"
-                               th:value="${user.getId()}">
+                        <input type="text" name="id" id="deleteId" readonly disabled class="form-control w-50 mb-3"
+                               placeholder="id">
 
                         <label class="form-label"><b>First Name</b></label>
-                        <input type="text" name="firstName" th:id="firstName" readonly disabled class="form-control w-50 mb-3"
-                               placeholder="First name"
-                               th:value="${user.getFirstName()}">
+                        <input type="text" name="firstName" id="deleteFirstName" readonly disabled
+                               class="form-control w-50 mb-3"
+                               placeholder="First name">
 
                         <label class="form-label"><b>Last Name</b></label>
-                        <input type="text" name="lastName" th:id="lastName" readonly disabled class="form-control w-50 mb-3"
-                               placeholder="Last name"
-                               th:value="${user.getLastName()}">
+                        <input type="text" name="lastName" id="deleteLastName" readonly disabled
+                               class="form-control w-50 mb-3"
+                               placeholder="Last name">
 
                         <label class="form-label"><b>Age</b></label>
-                        <input type="number" name="age" th:id="age" readonly disabled class="form-control w-50 mb-3"
-                               placeholder="Age"
-                               th:value="${user.getAge()}">
+                        <input type="number" name="age" id="deleteAge" readonly disabled class="form-control w-50 mb-3"
+                               placeholder="Age">
 
                         <label class="form-label"><b>Email</b></label>
-                        <input type="text" name="username" th:id="username" readonly disabled class="form-control w-50 mb-3"
-                               placeholder="Email"
-                               th:value="${user.getUsername()}">
+                        <input type="text" name="username" id="deleteUsername" readonly disabled
+                               class="form-control w-50 mb-3"
+                               placeholder="Email">
 
                         <label class="form-label"><b>Password</b></label>
-                        <input type="password" name="password" th:id="password" readonly disabled class="form-control w-50 mb-3"
-                               placeholder="Password"
-                               th:value="${user.getPassword()}">
+                        <input type="password" name="password" id="deletePassword" readonly disabled
+                               class="form-control w-50 mb-3"
+                               placeholder="Password">
 
                         <label class="flex-fill"><b>Role</b></label>
-                        <select th:id="roles" readonly disabled class="custom-select bd-primary w-50 mb-3" size="2"
+                        <select id="deleteRoles" readonly disabled class="custom-select bd-primary w-50 mb-3" size="2"
                                 name="rolesName"
                                 multiple="multiple">
-                            <option th:each="role : ${roles}"
-                                    th:value="${role.getName()}"
-                                    th:selected="${user.hasRole(role.name)}"
-                                    th:text="${role.getName().replace('ROLE_', ' ')} + ' '">
-                            </option>
+
                         </select>
                     </div>
                     <div class="modal-footer w-100">
