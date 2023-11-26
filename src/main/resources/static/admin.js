@@ -1,17 +1,22 @@
 const usersUrl = "http://localhost:8080/admin/users"
 const creatUserUrl = "http://localhost:8080/admin/new"
 const rolesUrl = "http://localhost:8080/admin/role"
+const authenticationInfoAdminUrl = "http://localhost:8080/user/authentication";
+let authenticationInfoAdmin;
 let userList;
 let rolesList;
 
 async function getData() {
     let promiseUsers = await fetch(usersUrl);
-    let promiseRoles = await fetch(rolesUrl)
+    let promiseRoles = await fetch(rolesUrl);
+    let promiseAuthenticationInfo = await fetch(authenticationInfoAdminUrl)
+    authenticationInfoAdmin = await promiseAuthenticationInfo.json();
     rolesList = await promiseRoles.json();
     userList = await promiseUsers.json();
+    navbarAuthenticationInfo("navbarAuthenticationInfoAdmin", authenticationInfoAdmin);
+    accessingTheNavigationBar("navigationBarAdmin", authenticationInfoAdmin);
     fillTable();
 }
-
 
 function fillTable() {
     let userTable = document.getElementById("usersTable");
@@ -23,7 +28,7 @@ function fillTable() {
             "<td>" + user.lastName + "</td>" +
             "<td>" + user.age + "</td>" +
             "<td>" + user.username + "</td>" +
-            "<td>" + user.roles.map(role => role.name.replace("ROLE_","")).join(" ") + "</td>" +
+            "<td>" + user.roles.map(role => role.name.replace("ROLE_", "")).join(" ") + "</td>" +
             "<td><button class='btn btn-info' style='color: white; background: #16A3B8' type='button' data-bs-toggle='modal' data-bs-target='#modalEdit' onclick='fillModalEdit(" + user.id + ")'>Edit</button></td>" +
             "<td><button class='btn btn-danger' style='color: white;' type='button' data-bs-toggle='modal' data-bs-target='#modalDelete' onclick='fillModalDelete(" + user.id + ")'>Delete</button></td>"
 

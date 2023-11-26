@@ -13,16 +13,11 @@
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"></script>
     <script defer src="admin.js"></script>
+    <script defer src="/bar.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark px-4">
-    <span class="navbar-brand mb-0 h1">
-            <b sec:authentication="name"></b>
-             with roles:
-            <span th:each="role : ${#authentication.principal.authorities}"
-                  th:text="${role.authority.replace('ROLE_', ' ')}"
-            ></span>
-    </span>
+    <span class="navbar-brand mb-0 h1" id="navbarAuthenticationInfoAdmin"></span>
     <ul class="navbar-nav">
         <li class="nav-item text-nowrap">
             <a class="nav-link" href="http://localhost:8080/logout">Logout</a>
@@ -31,14 +26,7 @@
 </nav>
 <div class="d-flex flex-fill">
     <div class="d-flex flex-column pt-3" style="width: 250px">
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <a th:href="@{/admin}" href="#" class="nav-link active" aria-current="page">Admin</a>
-            </li>
-            <li class="nav-item">
-                <a th:href="@{/user}" href="#" class="nav-link">User</a>
-            </li>
-        </ul>
+        <ul class="nav nav-pills flex-column mb-auto" id="navigationBarAdmin"></ul>
     </div>
 
     <main class="d-flex flex-column flex-fill bg-light p-4" style="height: 100vh">
