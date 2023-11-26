@@ -23,7 +23,7 @@ function fillTable() {
             "<td>" + user.lastName + "</td>" +
             "<td>" + user.age + "</td>" +
             "<td>" + user.username + "</td>" +
-            "<td>" + user.roles.map(role => role.name).join(", ") + "</td>" +
+            "<td>" + user.roles.map(role => role.name.replace("ROLE_","")).join(" ") + "</td>" +
             "<td><button class='btn btn-info' style='color: white; background: #16A3B8' type='button' data-bs-toggle='modal' data-bs-target='#modalEdit' onclick='fillModalEdit(" + user.id + ")'>Edit</button></td>" +
             "<td><button class='btn btn-danger' style='color: white;' type='button' data-bs-toggle='modal' data-bs-target='#modalDelete' onclick='fillModalDelete(" + user.id + ")'>Delete</button></td>"
 
