@@ -14,7 +14,7 @@ async function getData() {
 
 
 function fillTable() {
-    let userTable = document.getElementById("userTable");
+    let userTable = document.getElementById("usersTable");
     userList.forEach(user => {
         let newRow = userTable.insertRow()
         newRow.innerHTML =
