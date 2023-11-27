@@ -1,9 +1,9 @@
-const authenticationInfoUrl = "http://localhost:8080/user/authentication";
+const AUTHENTICATION_INFO_URL = "http://localhost:8080/user/authentication";
 
 let authenticationInfo;
 
 async function getData() {
-    let promiseUsers = await fetch(authenticationInfoUrl);
+    let promiseUsers = await fetch(AUTHENTICATION_INFO_URL);
     authenticationInfo = await promiseUsers.json();
     navbarAuthenticationInfo("navbarAuthenticationInfoUser", authenticationInfo);
     accessingTheNavigationBar("navigationBarUser", authenticationInfo);
@@ -20,7 +20,7 @@ function fillTable(authenticationInfo) {
         "<td>" + authenticationInfo.principal.lastName + "</td>" +
         "<td>" + authenticationInfo.principal.age + "</td>" +
         "<td>" + authenticationInfo.principal.username + "</td>" +
-        "<td>" + authenticationInfo.authorities.map(role => role.name.replace("ROLE_", "")).join(", ") + "</td>";
+        "<td>" + authenticationInfo.authorities.map(role => role.name.replace("ROLE_", "")).join(" ") + "</td>";
 
 }
 

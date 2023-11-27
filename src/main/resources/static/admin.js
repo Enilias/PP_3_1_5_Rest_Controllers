@@ -1,25 +1,29 @@
-const usersUrl = "http://localhost:8080/admin/users"
-const creatUserUrl = "http://localhost:8080/admin/new"
-const rolesUrl = "http://localhost:8080/admin/role"
-const authenticationInfoAdminUrl = "http://localhost:8080/user/authentication";
+const AUTHENTICATION_INFO_URL = "http://localhost:8080/user/authentication";
+const USER_URL = "http://localhost:8080/admin/users"
+const ROLES_URL = "http://localhost:8080/admin/role"
+const CREATE_USER_URL = "http://localhost:8080/admin/new"
+const UPDATE_USER_URL = "http://localhost:8080/admin/update"
+const DELETE_USER_URL = "http://localhost:8080/admin/delete";
 let authenticationInfoAdmin;
 let userList;
 let rolesList;
 
 async function getData() {
-    let promiseUsers = await fetch(usersUrl);
-    let promiseRoles = await fetch(rolesUrl);
-    let promiseAuthenticationInfo = await fetch(authenticationInfoAdminUrl)
+    let promiseUsers = await fetch(USER_URL);
+    let promiseRoles = await fetch(ROLES_URL);
+    let promiseAuthenticationInfo = await fetch(AUTHENTICATION_INFO_URL)
     authenticationInfoAdmin = await promiseAuthenticationInfo.json();
     rolesList = await promiseRoles.json();
     userList = await promiseUsers.json();
     navbarAuthenticationInfo("navbarAuthenticationInfoAdmin", authenticationInfoAdmin);
     accessingTheNavigationBar("navigationBarAdmin", authenticationInfoAdmin);
+
     fillTable();
 }
 
 function fillTable() {
     let userTable = document.getElementById("usersTable");
+    $("#usersTable").empty();
     userList.forEach(user => {
         let newRow = userTable.insertRow()
         newRow.innerHTML =
@@ -52,6 +56,7 @@ function fillModalEdit(id) {
     });
 }
 
+
 function fillModalDelete(id) {
     let user = userList.find(user => user.id === id);
     document.getElementById("deleteId").value = user.id;
@@ -69,7 +74,33 @@ function fillModalDelete(id) {
     });
 }
 
+function addEventListeners() {
+    document.getElementById("editForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        let responseEditUser = await fetch(UPDATE_USER_URL, {
+            method: "PATCH",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: $("#editForm").serialize()
+        });
+    });
+    document.getElementById("deleteForm").addEventListener("submit", async (e) => {
+        e.preventDefault()
+        let formData = new FormData(e.target);
+        let responseEditUser = await fetch(DELETE_USER_URL, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: $("#editForm").serialize()
+        });
+        userList.splice(userList.findIndex(user => user.id === formData.get("id")), 1);
+        fillTable();
+    });
+}
 
 getData();
+addEventListeners();
 
 

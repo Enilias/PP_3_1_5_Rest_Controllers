@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.controller.rest;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,6 +11,7 @@ import ru.kata.spring.boot_security.demo.service.role.RoleService;
 import ru.kata.spring.boot_security.demo.service.user.UserService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,18 +36,18 @@ public class AdminRestController {
 
 
     @PostMapping("/admin/new")
-    public void creat(@RequestBody User user) {
+    public void create(@RequestBody User user) {
         userService.save(user);
     }
 
 
     @PatchMapping("/admin/update")
-    public void update(@RequestBody User user) {
+    public void update(@ModelAttribute("user") User user, @RequestParam(value = "rolesName", required = false) String[] rolesName) {
         userService.update(user, user.getRoles());
     }
 
     @DeleteMapping("/admin/delete")
-    public void delete(@RequestParam("id") int id) {
-        userService.delete(id);
+    public void delete(@RequestBody Map<String, String> body) {
+        userService.delete(Integer.parseInt(body.get("id")));
     }
 }
