@@ -43,7 +43,7 @@ public class AdminRestController {
 
     @PatchMapping("/admin/update")
     public void update(@ModelAttribute("user") User user, @RequestParam(value = "rolesName", required = false) String[] rolesName) {
-        userService.update(user, user.getRoles());
+        userService.update(user, roleService.getCollectionsRoles(rolesName));
     }
 
     @DeleteMapping("/admin/delete")

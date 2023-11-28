@@ -77,23 +77,33 @@ function fillModalDelete(id) {
 function addEventListeners() {
     document.getElementById("editForm").addEventListener("submit", async (e) => {
         e.preventDefault();
-        let responseEditUser = await fetch(UPDATE_USER_URL, {
+        let formData = new FormData(e.target)
+        await fetch(UPDATE_USER_URL, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
             body: $("#editForm").serialize()
         });
+        let user = userList[formData.get("id")];
+        user.firstName = document.getElementById("editFirstName").value;
+        user.lastName = document.getElementById("editLastName").value;
+        user.age = document.getElementById("editAge").value;
+        user.username = document.getElementById("editUsername").value;
+        user.role = document.getElementById("editRoles").value;
+        userList[user.id] = user;
+        fillTable();
+
     });
     document.getElementById("deleteForm").addEventListener("submit", async (e) => {
         e.preventDefault()
         let formData = new FormData(e.target);
-        let responseEditUser = await fetch(DELETE_USER_URL, {
+        await fetch(DELETE_USER_URL, {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
-            body: $("#editForm").serialize()
+            body: $("#deleteForm").serialize()
         });
         userList.splice(userList.findIndex(user => user.id === formData.get("id")), 1);
         fillTable();
