@@ -10,8 +10,11 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.role.RoleService;
 import ru.kata.spring.boot_security.demo.service.user.UserService;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -43,7 +46,7 @@ public class AdminRestController {
 
     @PatchMapping("/admin/update")
     public void update(@ModelAttribute("user") User user, @RequestParam(value = "rolesName", required = false) String[] rolesName) {
-        userService.update(user, user.getRoles());
+        userService.update(user, roleService.getCollectionsRoles(rolesName));
     }
 
     @DeleteMapping("/admin/delete")

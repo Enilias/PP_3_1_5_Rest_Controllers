@@ -84,6 +84,8 @@ function addEventListeners() {
             },
             body: $("#editForm").serialize()
         });
+        userList.splice(userList.findIndex(user => user.id === formData.get("id")), 1);
+        fillTable();
     });
     document.getElementById("deleteForm").addEventListener("submit", async (e) => {
         e.preventDefault()
@@ -93,7 +95,7 @@ function addEventListeners() {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
-            body: $("#editForm").serialize()
+            body: $("#deleteForm").serialize()
         });
         userList.splice(userList.findIndex(user => user.id === formData.get("id")), 1);
         fillTable();
