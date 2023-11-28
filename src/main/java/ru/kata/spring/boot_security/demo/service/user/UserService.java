@@ -13,6 +13,7 @@ public interface UserService extends UserDetailsService {
     List<User> getUsers();
 
     void save(User user);
+    void save(User user,Collection<Role> roles);
 
     void delete(int id);
 

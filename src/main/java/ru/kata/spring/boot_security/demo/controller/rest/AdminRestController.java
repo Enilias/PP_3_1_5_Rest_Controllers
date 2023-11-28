@@ -38,9 +38,9 @@ public class AdminRestController {
     }
 
 
-    @PostMapping("/admin/new")
-    public void create(@RequestBody User user) {
-        userService.save(user);
+    @PostMapping("/admin/create")
+    public void create(@ModelAttribute("user") User user, @RequestParam(value = "rolesName", required = false) String[] rolesName) {
+        userService.save(user, roleService.getCollectionsRoles(rolesName));
     }
 
 

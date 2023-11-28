@@ -1,7 +1,7 @@
 const AUTHENTICATION_INFO_URL = "http://localhost:8080/user/authentication";
 const USER_URL = "http://localhost:8080/admin/users"
 const ROLES_URL = "http://localhost:8080/admin/role"
-const CREATE_USER_URL = "http://localhost:8080/admin/new"
+const CREATE_USER_URL = "http://localhost:8080/admin/create"
 const UPDATE_USER_URL = "http://localhost:8080/admin/update"
 const DELETE_USER_URL = "http://localhost:8080/admin/delete";
 let authenticationInfoAdmin;
@@ -37,6 +37,7 @@ function fillTable() {
             "<td><button class='btn btn-danger' style='color: white;' type='button' data-bs-toggle='modal' data-bs-target='#modalDelete' onclick='fillModalDelete(" + user.id + ")'>Delete</button></td>"
 
     })
+    fillModalRolesCreate();
 }
 
 function fillModalEdit(id) {
@@ -74,7 +75,52 @@ function fillModalDelete(id) {
     });
 }
 
+async function fillModalRolesCreate() {
+    let roleSelect = document.getElementById("createRoles");
+    roleSelect.options.length = 0;
+    rolesList.forEach(role => {
+        let option = new Option();
+        option.text = role.name;
+        roleSelect.add(option);
+    });
+}
+
 function addEventListeners() {
+
+    document.getElementById("NewUser").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        await fetch(CREATE_USER_URL, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: $("#creatForm").serialize()
+        });
+        let createUser = {
+            id: 0,
+            firstName: null,
+            lastName: null,
+            age: null,
+            username: null,
+            password: null,
+            roles: null
+        }
+        createUser.id = userList.length + 1;
+        createUser.firstName = document.getElementById("firstName").value;
+        createUser.lastName = document.getElementById("lastName").value;
+        createUser.age = document.getElementById("age").value;
+        createUser.username = document.getElementById("username").value;
+        createUser.password = document.getElementById("password").value;
+
+        let selectedRoles = Array.from(document.getElementById("createRoles").selectedOptions).map(option => option.value);
+
+        createUser.roles = rolesList.filter(role => selectedRoles.includes(role.name));
+
+        userList[userList.length + 1] = createUser;
+        fillTable();
+    });
+
+
     document.getElementById("editForm").addEventListener("submit", async (e) => {
         e.preventDefault();
         let userId = Number(new FormData(e.target).get("id"));
@@ -91,7 +137,6 @@ function addEventListeners() {
         updateUser.age = document.getElementById("editAge").value;
         updateUser.username = document.getElementById("editUsername").value;
         updateUser.password = document.getElementById("editPassword").value;
-        updateUser.role = document.getElementById("editRoles").value;
 
         let selectedRoles = Array.from(document.getElementById("editRoles").selectedOptions).map(option => option.value);
 
@@ -117,5 +162,4 @@ function addEventListeners() {
 
 getData();
 addEventListeners();
-
 
