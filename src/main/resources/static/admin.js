@@ -77,8 +77,7 @@ function fillModalDelete(id) {
 function addEventListeners() {
     document.getElementById("editForm").addEventListener("submit", async (e) => {
         e.preventDefault();
-        let formData = new FormData(e.target)
-        await fetch(UPDATE_USER_URL, {
+        let responseEditUser = await fetch(UPDATE_USER_URL, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -94,16 +93,18 @@ function addEventListeners() {
         userList[user.id] = user;
         fillTable();
 
+        userList.splice(userList.findIndex(user => user.id === formData.get("id")), 1);
+        fillTable();
     });
     document.getElementById("deleteForm").addEventListener("submit", async (e) => {
         e.preventDefault()
         let formData = new FormData(e.target);
-        await fetch(DELETE_USER_URL, {
+        let responseEditUser = await fetch(DELETE_USER_URL, {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
-            body: $("#deleteForm").serialize()
+            body: $("#editForm").serialize()
         });
         userList.splice(userList.findIndex(user => user.id === formData.get("id")), 1);
         fillTable();
