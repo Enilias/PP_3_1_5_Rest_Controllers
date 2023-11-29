@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @Entity
 @Data
 @Table
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +42,7 @@ public class User implements UserDetails {
     @Column
     private String password;
     @ManyToMany(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Collection<Role> roles;
 
     public User() {

@@ -39,14 +39,16 @@ public class AdminRestController {
 
 
     @PostMapping("/admin/create")
-    public void create(@ModelAttribute("user") User user, @RequestParam(value = "rolesName", required = false) String[] rolesName) {
+    public User create(@ModelAttribute("user") User user, @RequestParam(value = "rolesName", required = false) String[] rolesName) {
         userService.save(user, roleService.getCollectionsRoles(rolesName));
+        return userService.getUser(user.getId());
     }
 
 
     @PatchMapping("/admin/update")
-    public void update(@ModelAttribute("user") User user, @RequestParam(value = "rolesName", required = false) String[] rolesName) {
+    public User update(@ModelAttribute("user") User user, @RequestParam(value = "rolesName", required = false) String[] rolesName) {
         userService.update(user, roleService.getCollectionsRoles(rolesName));
+        return userService.getUser(user.getId());
     }
 
     @DeleteMapping("/admin/delete")

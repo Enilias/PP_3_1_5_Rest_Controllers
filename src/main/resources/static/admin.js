@@ -86,63 +86,30 @@ async function fillModalRolesCreate() {
 }
 
 function addEventListeners() {
-
     document.getElementById("NewUser").addEventListener("submit", async (e) => {
         e.preventDefault();
-        await fetch(CREATE_USER_URL, {
+        let createUser = await fetch(CREATE_USER_URL, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
             body: $("#creatForm").serialize()
         });
-        let createUser = {
-            id: 0,
-            firstName: null,
-            lastName: null,
-            age: null,
-            username: null,
-            password: null,
-            roles: null
-        }
-        createUser.id = userList.length + 1;
-        createUser.firstName = document.getElementById("firstName").value;
-        createUser.lastName = document.getElementById("lastName").value;
-        createUser.age = document.getElementById("age").value;
-        createUser.username = document.getElementById("username").value;
-        createUser.password = document.getElementById("password").value;
-
-        let selectedRoles = Array.from(document.getElementById("createRoles").selectedOptions).map(option => option.value);
-
-        createUser.roles = rolesList.filter(role => selectedRoles.includes(role.name));
-
-        userList[userList.length + 1] = createUser;
+        userList[userList.length] = await createUser.json();
         fillTable();
     });
 
 
     document.getElementById("editForm").addEventListener("submit", async (e) => {
         e.preventDefault();
-        let userId = Number(new FormData(e.target).get("id"));
-        await fetch(UPDATE_USER_URL, {
+        let updateUser = await fetch(UPDATE_USER_URL, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
             body: $("#editForm").serialize()
         });
-        let updateUser = userList[userId - 1];
-        updateUser.firstName = document.getElementById("editFirstName").value;
-        updateUser.lastName = document.getElementById("editLastName").value;
-        updateUser.age = document.getElementById("editAge").value;
-        updateUser.username = document.getElementById("editUsername").value;
-        updateUser.password = document.getElementById("editPassword").value;
-
-        let selectedRoles = Array.from(document.getElementById("editRoles").selectedOptions).map(option => option.value);
-
-        updateUser.roles = rolesList.filter(role => selectedRoles.includes(role.name));
-
-        userList[userId - 1] = updateUser;
+        userList[userList.length] = await updateUser.json();
         fillTable();
     });
     document.getElementById("deleteForm").addEventListener("submit", async (e) => {
