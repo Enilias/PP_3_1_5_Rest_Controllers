@@ -52,7 +52,7 @@ public class AdminRestController {
     }
 
     @DeleteMapping("/admin/delete")
-    public void delete(@RequestBody Map<String, String> body) {
-        userService.delete(Integer.parseInt(body.get("id")));
+    public void delete(@ModelAttribute("user") User user) {
+        userService.delete(user.getId());
     }
 }

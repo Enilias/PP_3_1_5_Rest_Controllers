@@ -42,6 +42,7 @@ function fillTable() {
 
 function fillModalEdit(id) {
     let user = userList.find(user => user.id === id);
+    document.getElementById("hiddenEditId").value = user.id;
     document.getElementById("editId").value = user.id;
     document.getElementById("editFirstName").value = user.firstName;
     document.getElementById("editLastName").value = user.lastName;
@@ -51,7 +52,8 @@ function fillModalEdit(id) {
     roleSelect.options.length = 0;
     rolesList.forEach(role => {
         let option = new Option();
-        option.text = role.name;
+        option.text = role.name.replace("ROLE_", "");
+        option.value = role.name;
         option.selected = user.roles.some(r => r.id === role.id);
         roleSelect.add(option);
     });
@@ -60,6 +62,7 @@ function fillModalEdit(id) {
 
 function fillModalDelete(id) {
     let user = userList.find(user => user.id === id);
+    document.getElementById("hiddenDeleteId").value = user.id;
     document.getElementById("deleteId").value = user.id;
     document.getElementById("deleteFirstName").value = user.firstName;
     document.getElementById("deleteLastName").value = user.lastName;
@@ -69,7 +72,8 @@ function fillModalDelete(id) {
     roleSelect.options.length = 0;
     rolesList.forEach(role => {
         let option = new Option();
-        option.text = role.name;
+        option.text = role.name.replace("ROLE_", "");
+        option.value = role.name;
         option.selected = user.roles.some(r => r.id === role.id);
         roleSelect.add(option);
     });
@@ -121,9 +125,9 @@ function addEventListeners() {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
-            body: $("#deleteForm").serialize()
+            body: $("#hiddenDeleteId").serialize()
         });
-        userList.splice(userList.findIndex(user => user.id === formData.get("id")), 1);
+        userList.splice(userList.findIndex(user => Number(user.id) === Number(formData.get("id"))), 1);
         fillTable();
     });
 }

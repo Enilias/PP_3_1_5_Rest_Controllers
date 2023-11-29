@@ -119,9 +119,9 @@
                     </div>
                     <!--/*@thymesVar id="user" type="ru"*/-->
                     <div class="d-flex modal-body flex-column align-items-center">
-                        <!--                        <input type="hidden" name="id" id="editId" readonly  class="form-control w-50 mb-3">-->
                         <label class="form-label"><b>ID</b></label>
-                        <input type="text" name="id" id="editId" readonly class="form-control w-50 mb-3">
+                        <input type="hidden" name="id" id="hiddenEditId" readonly class="form-control w-50 mb-3">
+                        <input type="text" name="id" id="editId" readonly disabled class="form-control w-50 mb-3">
 
                         <label class="form-label"><b>First Name</b></label>
                         <input type="text" name="firstName" id="editFirstName" class="form-control w-50 mb-3"
@@ -171,9 +171,10 @@
                     </div>
 
                     <div class="d-flex modal-body flex-column align-items-center">
-
+                        <input type="hidden" name="id" id="hiddenDeleteId" readonly class="form-control w-50 mb-3"
+                               placeholder="id">
                         <label class="form-label"><b>ID</b></label>
-                        <input type="text" name="id" id="deleteId" readonly class="form-control w-50 mb-3"
+                        <input type="text" name="id" id="deleteId" readonly disabled class="form-control w-50 mb-3"
                                placeholder="id">
 
                         <label class="form-label"><b>First Name</b></label>
