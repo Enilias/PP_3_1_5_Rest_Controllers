@@ -42,7 +42,6 @@ public class User implements UserDetails {
     @Column
     private String password;
     @ManyToMany(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Collection<Role> roles;
 
     public User() {

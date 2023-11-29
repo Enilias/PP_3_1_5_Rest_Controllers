@@ -102,6 +102,7 @@ function addEventListeners() {
 
     document.getElementById("editForm").addEventListener("submit", async (e) => {
         e.preventDefault();
+        let formData = new FormData(e.target);
         let updateUser = await fetch(UPDATE_USER_URL, {
             method: "PATCH",
             headers: {
@@ -109,7 +110,7 @@ function addEventListeners() {
             },
             body: $("#editForm").serialize()
         });
-        userList[userList.length] = await updateUser.json();
+        userList[formData.get("id") - 1] = await updateUser.json();
         fillTable();
     });
     document.getElementById("deleteForm").addEventListener("submit", async (e) => {
