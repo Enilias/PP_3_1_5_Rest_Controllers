@@ -84,7 +84,8 @@ async function fillModalRolesCreate() {
     roleSelect.options.length = 0;
     rolesList.forEach(role => {
         let option = new Option();
-        option.text = role.name;
+        option.text = role.name.replace("ROLE_", "");
+        option.value = role.name;
         roleSelect.add(option);
     });
 }
