@@ -21,7 +21,7 @@ public class DbFill {
 
 
     @PostConstruct
-    private void postConstruct() {
+    private void init() {
         Role userRole = new Role("ROLE_USER");
         Role adminRole = new Role("ROLE_ADMIN");
         roleService.save(userRole);
@@ -31,7 +31,7 @@ public class DbFill {
                     "John" + i,
                     "Smith" + i,
                     (byte) (1 + i),
-                    "user" + i+"@gmail.com",
+                    "user" + i + "@gmail.com",
                     "password" + i,
                     new HashSet<>(Collections.singleton(userRole)))
             );
