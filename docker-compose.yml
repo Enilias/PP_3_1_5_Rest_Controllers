@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+
+  mysqldb:
+    container_name: dbcontainer
+    image: mysql
+    ports:
+      - 49160:3306
+    environment:
+      MYSQL_DATABASE: dockermysql
+      MYSQL_ROOT_PASSWORD: enias
